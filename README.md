@@ -1,2 +1,2 @@
-# VR_rehab_diabetes
-VR rehabilitation diabetes meta-analysis
+# VR_rehab_neckpain
+VR rehabilitation neck pain meta-analysis
