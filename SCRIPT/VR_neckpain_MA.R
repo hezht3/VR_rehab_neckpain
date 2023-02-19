@@ -75,9 +75,6 @@ text(10, 7, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
 text(-12.5, 8, "No. of participants", pos = 4, cex = 0.8, font = 2)
 dev.off()
 
-funnel(NDI_st)
-regtest(NDI_st)   # Egger's test
-
 # 2. Neck Disability Index, long-term
 NDI_lt <- rma(data = data %>% filter(outcome == "2. Neck Disability Index, long-term"),
               yi = yi,
@@ -104,9 +101,6 @@ text(10, 6, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
 text(-12.5, 7, "No. of participants", pos = 4, cex = 0.8, font = 2)
 dev.off()
 
-funnel(NDI_lt)
-regtest(NDI_lt)   # Egger's test
-
 ### Composite plot for Neck Disability Index
 NDI <- rma(data = data %>% filter(outcome == "1. Neck Disability Index, short-term" | outcome == "2. Neck Disability Index, long-term"),
            yi = yi,
@@ -117,7 +111,7 @@ NDI <- rma(data = data %>% filter(outcome == "1. Neck Disability Index, short-te
            level = 95)
 
 tiff("./OUTPUT/Figure 2Am. RMA forest plot_outcome1_composite.tiff",
-     width = 1700, height = 1200, pointsize = 10, res = 300)
+     width = 2500, height = 1200, pointsize = 10, res = 300)
 forest(NDI, xlim = c(-18, 10),
        ilab = data %>%
            filter(outcome == "1. Neck Disability Index, short-term" | outcome == "2. Neck Disability Index, long-term") %>%
@@ -139,11 +133,17 @@ text(-18, 18, "Author(s) and Year", pos = 4, cex = 0.8, font = 2)
 text(-12, 18, "VR", pos = 4, cex = 0.8, font = 2)
 text(-10, 18, "Control", pos = 4, cex = 0.8, font = 2)
 text(10, 18, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
-text(-12.5, 19, "No. of participants", pos = 4, cex = 0.8, font = 2)
+text(-12, 19, "No. of participants", pos = 4, cex = 0.8, font = 2)
 text(-18, c(16, 7), pos = 4, c("Neck-related disability (Neck Disability Index), short-term",
                                "Neck-related disability (Neck Disability Index), long-term"), cex = 0.8, font = 4)
-addpoly(NDI_st, row = 9.5, cex = 0.75, mlab = "Random-effect Model")
-addpoly(NDI_lt, row = 1.5, cex = 0.75, mlab = "Random-effect Model")
+addpoly(NDI_st, row = 9.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(NDI_st$QE, digits=2, format="f"),
+                      ", df = ", NDI_st$k - NDI_st$p, ", p = ", formatC(NDI_st$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(NDI_st$I2, digits=1, format="f"), "%)"))
+addpoly(NDI_lt, row = 1.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(NDI_lt$QE, digits=2, format="f"),
+                      ", df = ", NDI_lt$k - NDI_lt$p, ", p = ", formatC(NDI_lt$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(NDI_lt$I2, digits=1, format="f"), "%)"))
 dev.off()
 
 # 3. Pain, short-term
@@ -172,9 +172,6 @@ text(6, 8, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
 text(-6.6, 9, "No. of participants", pos = 4, cex = 0.8, font = 2)
 dev.off()
 
-funnel(pain_st)
-regtest(pain_st)   # Egger's test
-
 # 4. Pain, long-term
 pain_lt <- rma(data = data %>% filter(outcome == "4. Pain, long-term"),
                yi = yi,
@@ -201,9 +198,6 @@ text(6, 6, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
 text(-6.6, 7, "No. of participants", pos = 4, cex = 0.8, font = 2)
 dev.off()
 
-funnel(pain_lt)
-regtest(pain_lt)   # Egger's test
-
 ### Composite plot for Pain
 pain <- rma(data = data %>% filter(outcome == "3. Pain, short-term" | outcome == "4. Pain, long-term"),
             yi = yi,
@@ -214,7 +208,7 @@ pain <- rma(data = data %>% filter(outcome == "3. Pain, short-term" | outcome ==
             level = 95)
 
 tiff("./OUTPUT/Figure 2Bm. RMA forest plot_outcome2_composite.tiff",
-     width = 1700, height = 1300, pointsize = 10, res = 300)
+     width = 2500, height = 1300, pointsize = 10, res = 300)
 forest(pain, xlim = c(-10, 6),
        ilab = data %>%
            filter(outcome == "3. Pain, short-term" | outcome == "4. Pain, long-term") %>%
@@ -236,11 +230,17 @@ text(-10, 19, "Author(s) and Year", pos = 4, cex = 0.8, font = 2)
 text(-6.5, 19, "VR", pos = 4, cex = 0.8, font = 2)
 text(-4.9, 19, "Control", pos = 4, cex = 0.8, font = 2)
 text(6, 19, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
-text(-6.6, 20, "No. of participants", pos = 4, cex = 0.8, font = 2)
+text(-6.2, 20, "No. of participants", pos = 4, cex = 0.8, font = 2)
 text(-10, c(17, 7), pos = 4, c("Neck pain intensity (visual analog scale), short-term",
                                "Neck pain intensity (visual analog scale), long-term"), cex = 0.8, font = 4)
-addpoly(pain_st, row = 9.5, cex = 0.75, mlab = "Random-effect Model")
-addpoly(pain_lt, row = 1.5, cex = 0.75, mlab = "Random-effect Model")
+addpoly(pain_st, row = 9.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(pain_st$QE, digits=2, format="f"),
+                      ", df = ", pain_st$k - pain_st$p, ", p = ", formatC(pain_st$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(pain_st$I2, digits=1, format="f"), "%)"))
+addpoly(pain_lt, row = 1.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(pain_lt$QE, digits=2, format="f"),
+                      ", df = ", pain_lt$k - pain_lt$p, ", p = ", formatC(pain_lt$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(pain_lt$I2, digits=1, format="f"), "%)"))
 dev.off()
 
 # 5. Kinesiophobia, short-term
@@ -269,9 +269,6 @@ text(14, 5, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
 text(-11.5, 6, "No. of participants", pos = 4, cex = 0.8, font = 2)
 dev.off()
 
-funnel(Kin_st)
-regtest(Kin_st)   # Egger's test
-
 # 6. Kinesiophobia, long-term
 Kin_lt <- rma(data = data %>% filter(outcome == "6. Kinesiophobia, long-term"),
               yi = yi,
@@ -298,9 +295,6 @@ text(12, 5, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
 text(-11.5, 6, "No. of participants", pos = 4, cex = 0.8, font = 2)
 dev.off()
 
-funnel(Kin_lt)
-regtest(Kin_lt)   # Egger's test
-
 ### Composite plot for Kinesiophobia
 Kin <- rma(data = data %>% filter(outcome == "5. Kinesiophobia, short-term" | outcome == "6. Kinesiophobia, long-term"),
            yi = yi,
@@ -311,7 +305,7 @@ Kin <- rma(data = data %>% filter(outcome == "5. Kinesiophobia, short-term" | ou
            level = 95)
 
 tiff("./OUTPUT/Figure 2Cm. RMA forest plot_outcome2_composite.tiff",
-     width = 2100, height = 1200, pointsize = 10, res = 300)
+     width = 2500, height = 1200, pointsize = 10, res = 300)
 forest(Kin, xlim = c(-21, 12),
        ilab = data %>%
            filter(outcome == "5. Kinesiophobia, short-term" | outcome == "6. Kinesiophobia, long-term") %>%
@@ -333,9 +327,153 @@ text(-21, 15, "Author(s) and Year", pos = 4, cex = 0.8, font = 2)
 text(-14, 15, "VR", pos = 4, cex = 0.8, font = 2)
 text(-12, 15, "Control", pos = 4, cex = 0.8, font = 2)
 text(12, 15, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
-text(-14.5, 16, "No. of participants", pos = 4, cex = 0.8, font = 2)
+text(-14.2, 16, "No. of participants", pos = 4, cex = 0.8, font = 2)
 text(-21, c(13, 6), pos = 4, c("Fear of movement (Tampa Scale of Kinesiophobia), short-term",
                                "Fear of movement (Tampa Scale of Kinesiophobia), long-term"), cex = 0.8, font = 4)
-addpoly(Kin_st, row = 8.5, cex = 0.75, mlab = "Random-effect Model")
-addpoly(Kin_lt, row = 1.5, cex = 0.75, mlab = "Random-effect Model")
+addpoly(Kin_st, row = 8.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(Kin_st$QE, digits=2, format="f"),
+                      ", df = ", Kin_st$k - Kin_st$p, ", p = ", formatC(Kin_st$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(Kin_st$I2, digits=1, format="f"), "%)"))
+addpoly(Kin_lt, row = 1.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(Kin_lt$QE, digits=2, format="f"),
+                      ", df = ", Kin_lt$k - Kin_lt$p, ", p = ", formatC(Kin_lt$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(Kin_lt$I2, digits=1, format="f"), "%)"))
+dev.off()
+
+
+########################
+# Sensitivity analyses #
+########################
+# Drop "poor" quality studies
+data <- data %>% 
+    filter(!study %in% c("Cetin 2022", "Nusser 2021"))
+
+# 1. Neck Disability Index, short-term
+NDI_st <- rma(data = data %>% filter(outcome == "1. Neck Disability Index, short-term"),
+              yi = yi,
+              vi = vi,
+              method = "DL",
+              slab = study,
+              digits = 2,
+              level = 95)
+summary(NDI_st)
+
+# 2. Neck Disability Index, long-term
+NDI_lt <- rma(data = data %>% filter(outcome == "2. Neck Disability Index, long-term"),
+              yi = yi,
+              vi = vi,
+              method = "DL",
+              slab = study,
+              digits = 2,
+              level = 95)
+summary(NDI_lt)
+
+### Composite plot for Neck Disability Index
+NDI <- rma(data = data %>% filter(outcome == "1. Neck Disability Index, short-term" | outcome == "2. Neck Disability Index, long-term"),
+           yi = yi,
+           vi = vi,
+           method = "DL",
+           slab = study,
+           digits = 2,
+           level = 95)
+
+tiff("./OUTPUT/Figure S1. RMA forest plot_outcome1_composite (sensitivity analysis).tiff",
+     width = 2500, height = 1200, pointsize = 10, res = 300)
+forest(NDI, xlim = c(-18, 10),
+       ilab = data %>%
+           filter(outcome == "1. Neck Disability Index, short-term" | outcome == "2. Neck Disability Index, long-term") %>%
+           select(contains("_n_post")),
+       slab = data %>%
+           filter(outcome == "1. Neck Disability Index, short-term" | outcome == "2. Neck Disability Index, long-term") %>% 
+           pull(study),
+       ilab.xpos = c(-11,-9), cex = 0.75, ylim = c(1, 18),
+       order = data %>%
+           filter(outcome == "1. Neck Disability Index, short-term" | outcome == "2. Neck Disability Index, long-term") %>%
+           mutate(order = n():1) %>% 
+           pull(order) %>% 
+           order(),
+       rows = c(3:6, 11:14),
+       addfit = FALSE,
+       xlab = "Mean Difference",
+       mlab = "RE Model for Neck-related disability (Neck Disability Index)", psize = 1)
+text(-18, 17, "Author(s) and Year", pos = 4, cex = 0.8, font = 2)
+text(-12, 17, "VR", pos = 4, cex = 0.8, font = 2)
+text(-10, 17, "Control", pos = 4, cex = 0.8, font = 2)
+text(10, 17, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
+text(-12, 18, "No. of participants", pos = 4, cex = 0.8, font = 2)
+text(-18, c(15, 7), pos = 4, c("Neck-related disability (Neck Disability Index), short-term",
+                               "Neck-related disability (Neck Disability Index), long-term"), cex = 0.8, font = 4)
+addpoly(NDI_st, row = 9.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(NDI_st$QE, digits=2, format="f"),
+                      ", df = ", NDI_st$k - NDI_st$p, ", p = ", formatC(NDI_st$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(NDI_st$I2, digits=1, format="f"), "%)"))
+addpoly(NDI_lt, row = 1.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(NDI_lt$QE, digits=2, format="f"),
+                      ", df = ", NDI_lt$k - NDI_lt$p, ", p = ", formatC(NDI_lt$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(NDI_lt$I2, digits=1, format="f"), "%)"))
+dev.off()
+
+# 3. Pain, short-term
+pain_st <- rma(data = data %>% filter(outcome == "3. Pain, short-term"),
+               yi = yi,
+               vi = vi,
+               method = "DL",
+               slab = study,
+               digits = 2,
+               level = 95)
+summary(pain_st)
+
+# 4. Pain, long-term
+pain_lt <- rma(data = data %>% filter(outcome == "4. Pain, long-term"),
+               yi = yi,
+               vi = vi,
+               method = "DL",
+               slab = study,
+               digits = 2,
+               level = 95)
+summary(pain_lt)
+
+### Composite plot for Pain
+pain <- rma(data = data %>% filter(outcome == "3. Pain, short-term" | outcome == "4. Pain, long-term"),
+            yi = yi,
+            vi = vi,
+            method = "DL",
+            slab = study,
+            digits = 2,
+            level = 95)
+
+tiff("./OUTPUT/Figure S2. RMA forest plot_outcome2_composite (sensitivity analysis).tiff",
+     width = 2500, height = 1300, pointsize = 10, res = 300)
+forest(pain, xlim = c(-10, 6),
+       ilab = data %>%
+           filter(outcome == "3. Pain, short-term" | outcome == "4. Pain, long-term") %>%
+           select(contains("_n_post")),
+       slab = data %>%
+           filter(outcome == "3. Pain, short-term" | outcome == "4. Pain, long-term") %>% 
+           pull(study),
+       ilab.xpos = c(-6,-4), cex = 0.75, ylim = c(1, 18),
+       order = data %>%
+           filter(outcome == "3. Pain, short-term" | outcome == "4. Pain, long-term") %>%
+           mutate(order = n():1) %>% 
+           pull(order) %>% 
+           order(),
+       rows = c(3:6, 11:14),
+       addfit = FALSE,
+       xlab = "Mean Difference",
+       mlab = "RE Model for Neck pain intensity (visual analog scale)", psize = 1)
+text(-10, 17, "Author(s) and Year", pos = 4, cex = 0.8, font = 2)
+text(-6.5, 17, "VR", pos = 4, cex = 0.8, font = 2)
+text(-4.9, 17, "Control", pos = 4, cex = 0.8, font = 2)
+text(6, 17, "Mean difference [95% CI]", pos = 2, cex = 0.8, font = 2)
+text(-6.2, 18, "No. of participants", pos = 4, cex = 0.8, font = 2)
+text(-10, c(15, 7), pos = 4, c("Neck pain intensity (visual analog scale), short-term",
+                               "Neck pain intensity (visual analog scale), long-term"), cex = 0.8, font = 4)
+addpoly(pain_st, row = 9.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(pain_st$QE, digits=2, format="f"),
+                      ", df = ", pain_st$k - pain_st$p, ", p = ", formatC(pain_st$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(pain_st$I2, digits=1, format="f"), "%)"))
+addpoly(pain_lt, row = 1.5, cex = 0.75,
+        mlab = paste0("Random-effect Model (Q = ", formatC(pain_lt$QE, digits=2, format="f"),
+                      ", df = ", pain_lt$k - pain_lt$p, ", p = ", formatC(pain_lt$QEp, digits=2, format="f"), 
+                      "; I-square = ", formatC(pain_lt$I2, digits=1, format="f"), "%)"))
 dev.off()
